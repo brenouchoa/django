@@ -244,7 +244,10 @@ def items_for_result(cl, result, form):
                 result_repr = mark_safe(force_text(bf.errors) + force_text(bf))
             yield format_html('<td{0}>{1}</td>', row_class, result_repr)
     if form and not form[cl.model._meta.pk.name].is_hidden:
-        yield format_html('<td>{0}</td>', force_text(form[cl.model._meta.pk.name]))
+    	if isinstance(form[cl.model._meta.pk.name], models.DecimalField):
+        	yield format_html('<td class="right">{0}</td>', force_text(form[cl.model._meta.pk.name]))
+        else:
+        	yield format_html('<td>{0}</td>', force_text(form[cl.model._meta.pk.name]))
 
 class ResultList(list):
     # Wrapper class used to return items in a list_editable
